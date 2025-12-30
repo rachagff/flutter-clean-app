@@ -63,13 +63,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       child: Container(
-                        margin: const EdgeInsets.all(3),
+                        margin: const EdgeInsets.all(1),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(57),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(2),
                           child: Image.asset(
                             'assets/logo.png',
                             width: 200,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   // Form
                   Form(
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
                         // Password field
                         TextFormField(
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
                         // Remember me & Forgot password
                         Row(
@@ -282,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
 
                         // Sign up link
                         Row(
