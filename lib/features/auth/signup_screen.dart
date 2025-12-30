@@ -46,52 +46,34 @@ class _SignupScreenState extends State<SignupScreen> {
                   // Logo
                   Center(
                     child: Container(
-                      width: 160,
-                      height: 160,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xFF21BBC7),
-                            Color(0xFF1C768C),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(60),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF21BBC7).withOpacity(0.3),
-                            blurRadius: 15,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
+                      width: 150,
+                      height: 150,
+
                       child: Container(
                         margin: const EdgeInsets.all(3),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(57),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
+
+
                           child: Image.asset(
                             'assets/logo.png',
                             width: 150,
                             height: 150,
                             fit: BoxFit.contain,
                           ),
-                        ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   // Title
                   const Text(
                     'Créer un compte',
                     style: TextStyle(
-                      fontSize: 28,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1C768C),
                     ),
