@@ -42,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo
                   Center(
                     child: Container(
-                      width: 210,
-                      height: 210,
+                      width: 180,
+                      height: 180,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           begin: Alignment.topCenter,
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 10),
 
                   // Title
                   const Text(
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
 
                   // Form
                   Form(
@@ -251,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
 
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 10),
 
                         // Login button - Made larger
                         SizedBox(
@@ -282,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 20),
 
                         // Sign up link
                         Row(
