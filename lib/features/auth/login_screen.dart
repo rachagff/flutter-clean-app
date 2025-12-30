@@ -42,8 +42,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo
                   Center(
                     child: Container(
-                      width: 220,
-                      height: 220,
+                      width: 210,
+                      height: 210,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           begin: Alignment.topCenter,
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(60),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF21BBC7).withOpacity(0.3),
+                            color: Colors.white,
                             blurRadius: 15,
                             spreadRadius: 2,
                           ),
@@ -69,11 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(57),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(8),
                           child: Image.asset(
                             'assets/logo.png',
-                            width: 210,
-                            height: 210,
+                            width: 200,
+                            height: 200,
                             fit: BoxFit.contain,
                           ),
                         ),
