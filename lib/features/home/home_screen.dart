@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  final PageController _pageController = PageController(viewportFraction: 0.85);
+  late PageController _pageController;
   int _currentPage = 0;
   Timer? _timer;
 
@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _offers = _createOffers();
     _premiumServices = _createPremiumServices();
 
+    _pageController = PageController(viewportFraction: 0.85);
     _startAutoSlide();
   }
 
@@ -180,6 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenWidth < 360;
+    final isVerySmallScreen = screenWidth < 320;
+    final isExtraSmallScreen = screenWidth < 300;
+
     return Scaffold(
       backgroundColor: _lightGrey,
       body: SafeArea(
@@ -187,7 +194,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             // Header moderne et professionnel avec gradient léger
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              padding: EdgeInsets.symmetric(
+                horizontal: isExtraSmallScreen ? 12.0 : isVerySmallScreen ? 15.0 : 20.0,
+                vertical: isExtraSmallScreen ? 10.0 : 15.0,
+              ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -195,14 +205,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   colors: _headerGradient,
                 ),
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
-                    blurRadius: 15,
-                    offset: const Offset(0, 5),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -214,72 +224,76 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       // Logo avec effet de profondeur
                       Container(
-                        width: 55,
-                        height: 55,
+                        width: isExtraSmallScreen ? 40 : isVerySmallScreen ? 45 : 55,
+                        height: isExtraSmallScreen ? 40 : isVerySmallScreen ? 45 : 55,
                         decoration: BoxDecoration(
                           color: _white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(isExtraSmallScreen ? 10 : 15),
                           boxShadow: [
                             BoxShadow(
                               color: _primaryBlue.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: Center(
                           child: Image.asset(
                             'assets/logo.png',
-                            width: 50,
-                            height: 50,
+                            width: isExtraSmallScreen ? 35 : isVerySmallScreen ? 40 : 50,
+                            height: isExtraSmallScreen ? 35 : isVerySmallScreen ? 40 : 50,
                             fit: BoxFit.contain,
                           ),
                         ),
                       ),
 
-                      // User info avec badge
+                      // User info avec badge - version compacte pour petits écrans
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isExtraSmallScreen ? 8.0 : 12.0,
+                          vertical: isExtraSmallScreen ? 6.0 : 8.0,
+                        ),
                         decoration: BoxDecoration(
                           color: _white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.05),
-                              blurRadius: 10,
-                              offset: const Offset(0, 3),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: Row(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  'Bienvenue,',
-                                  style: TextStyle(
-                                    color: _textLight,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
+                            if (!isExtraSmallScreen)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Bienvenue,',
+                                    style: TextStyle(
+                                      color: _textLight,
+                                      fontSize: isVerySmallScreen ? 10 : 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'Racha G.',
-                                  style: TextStyle(
-                                    color: _textDark,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    'Racha G.',
+                                    style: TextStyle(
+                                      color: _textDark,
+                                      fontSize: isVerySmallScreen ? 12 : 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(width: 10),
+                                ],
+                              ),
+                            if (!isExtraSmallScreen) SizedBox(width: isVerySmallScreen ? 6 : 10),
                             Stack(
                               children: [
                                 Container(
-                                  width: 40,
-                                  height: 40,
+                                  width: isExtraSmallScreen ? 32 : 40,
+                                  height: isExtraSmallScreen ? 32 : 40,
                                   decoration: BoxDecoration(
                                     color: _primaryBlue,
                                     shape: BoxShape.circle,
@@ -289,22 +303,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       colors: [_secondaryBlue, _primaryBlue],
                                     ),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.person,
                                     color: Colors.white,
-                                    size: 20,
+                                    size: isExtraSmallScreen ? 16 : 20,
                                   ),
                                 ),
                                 Positioned(
                                   right: 0,
                                   top: 0,
                                   child: Container(
-                                    width: 12,
-                                    height: 12,
+                                    width: 10,
+                                    height: 10,
                                     decoration: BoxDecoration(
                                       color: _accentCoral,
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: _white, width: 2),
+                                      border: Border.all(color: _white, width: 1.5),
                                     ),
                                   ),
                                 ),
@@ -316,18 +330,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
                   // Search bar moderne
                   Container(
                     decoration: BoxDecoration(
                       color: _white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.08),
-                          blurRadius: 15,
-                          offset: const Offset(0, 5),
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -337,29 +351,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: TextField(
                             decoration: InputDecoration(
                               hintText: 'Rechercher un service...',
-                              hintStyle: TextStyle(color: _textLight),
-                              prefixIcon: Icon(Icons.search, color: _primaryBlue),
+                              hintStyle: TextStyle(
+                                color: _textLight,
+                                fontSize: isVerySmallScreen ? 13 : null,
+                              ),
+                              prefixIcon: Icon(Icons.search,
+                                  color: _primaryBlue, size: isVerySmallScreen ? 20 : null),
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 16,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: isExtraSmallScreen ? 12 : 16,
+                                vertical: isExtraSmallScreen ? 12 : 14,
                               ),
                             ),
                           ),
                         ),
                         Container(
-                          width: 50,
-                          height: 50,
+                          width: isExtraSmallScreen ? 42 : 50,
+                          height: isExtraSmallScreen ? 42 : 50,
                           decoration: BoxDecoration(
                             color: _accentTeal,
                             borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15),
                             ),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.filter_list,
                             color: Colors.white,
+                            size: isVerySmallScreen ? 20 : null,
                           ),
                         ),
                       ],
@@ -372,13 +391,13 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(isExtraSmallScreen ? 12 : isVerySmallScreen ? 15 : 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Banner slider amélioré
                     SizedBox(
-                      height: 200,
+                      height: isExtraSmallScreen ? 150 : isVerySmallScreen ? 170 : 200,
                       child: Column(
                         children: [
                           Expanded(
@@ -392,19 +411,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               itemBuilder: (context, index) {
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  margin: EdgeInsets.symmetric(horizontal: isExtraSmallScreen ? 3 : 5),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
+                                    borderRadius: BorderRadius.circular(isExtraSmallScreen ? 15 : 20),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.black.withOpacity(0.15),
-                                        blurRadius: 20,
-                                        offset: const Offset(0, 10),
+                                        blurRadius: 15,
+                                        offset: const Offset(0, 5),
                                       ),
                                     ],
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(25),
+                                    borderRadius: BorderRadius.circular(isExtraSmallScreen ? 15 : 20),
                                     child: Stack(
                                       children: [
                                         // Image avec overlay gradient
@@ -428,44 +447,51 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         // Contenu
                                         Padding(
-                                          padding: const EdgeInsets.all(25),
+                                          padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
                                           child: Column(
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: isExtraSmallScreen ? 8 : 10,
+                                                  vertical: isExtraSmallScreen ? 3 : 4,
+                                                ),
                                                 decoration: BoxDecoration(
                                                   color: _accentCoral,
-                                                  borderRadius: BorderRadius.circular(20),
+                                                  borderRadius: BorderRadius.circular(15),
                                                 ),
-                                                child: const Text(
+                                                child: Text(
                                                   'LIMITÉ',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 10,
+                                                    fontSize: isExtraSmallScreen ? 8 : 9,
                                                     fontWeight: FontWeight.bold,
-                                                    letterSpacing: 1,
+                                                    letterSpacing: 0.5,
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 10),
+                                              SizedBox(height: isExtraSmallScreen ? 6 : 8),
                                               Text(
                                                 _bannerTitles[index],
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 18,
+                                                  fontSize: isExtraSmallScreen ? 14 : isVerySmallScreen ? 16 : 18,
                                                   fontWeight: FontWeight.bold,
                                                   height: 1.3,
                                                 ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                              const SizedBox(height: 8),
+                                              SizedBox(height: isExtraSmallScreen ? 4 : 6),
                                               Text(
                                                 _bannerDescriptions[index],
                                                 style: TextStyle(
                                                   color: Colors.white.withOpacity(0.9),
-                                                  fontSize: 13,
+                                                  fontSize: isExtraSmallScreen ? 11 : 12,
                                                 ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ],
                                           ),
@@ -477,28 +503,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 15),
+                          SizedBox(height: isExtraSmallScreen ? 10 : 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
                               _bannerImages.length,
                                   (index) => AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
-                                width: _currentPage == index ? 30 : 8,
-                                height: 8,
-                                margin: const EdgeInsets.symmetric(horizontal: 4),
+                                width: _currentPage == index ? 25 : 6,
+                                height: 6,
+                                margin: EdgeInsets.symmetric(horizontal: 3),
                                 decoration: BoxDecoration(
                                   color: _currentPage == index ? _primaryBlue : _lightBlue,
-                                  borderRadius: BorderRadius.circular(4),
-                                  boxShadow: _currentPage == index
-                                      ? [
-                                    BoxShadow(
-                                      color: _primaryBlue.withOpacity(0.3),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ]
-                                      : [],
+                                  borderRadius: BorderRadius.circular(3),
                                 ),
                               ),
                             ),
@@ -507,77 +524,92 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: isExtraSmallScreen ? 20 : 25),
 
                     // Section Services avec plus d'options
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Nos Services',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: _textDark,
-                            letterSpacing: -0.5,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Nos Services',
+                                style: TextStyle(
+                                  fontSize: isExtraSmallScreen ? 18 : isVerySmallScreen ? 20 : 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: _textDark,
+                                ),
+                              ),
+                              SizedBox(height: 2),
+                              Text(
+                                'Choisissez parmi notre large gamme',
+                                style: TextStyle(
+                                  fontSize: isExtraSmallScreen ? 11 : 12,
+                                  color: _textLight,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isExtraSmallScreen ? 8 : 10,
+                            vertical: isExtraSmallScreen ? 4 : 5,
+                          ),
                           decoration: BoxDecoration(
                             color: _lightBlue,
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
                             children: [
                               Text(
-                                '${_services.length} services',
+                                '${_services.length}',
                                 style: TextStyle(
                                   color: _primaryBlue,
-                                  fontSize: 12,
+                                  fontSize: isExtraSmallScreen ? 10 : 11,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              const SizedBox(width: 5),
-                              Icon(Icons.arrow_forward_ios, color: _primaryBlue, size: 10),
+                              SizedBox(width: isExtraSmallScreen ? 2 : 4),
+                              Icon(Icons.arrow_forward_ios,
+                                  color: _primaryBlue,
+                                  size: isExtraSmallScreen ? 9 : 10),
                             ],
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 5),
-                    Text(
-                      'Choisissez parmi notre large gamme de services professionnels',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: _textLight,
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
+                    SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
                     // Grille de services améliorée
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                        childAspectRatio: 0.85,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: isExtraSmallScreen ? 3 : 4,
+                        crossAxisSpacing: isExtraSmallScreen ? 8 : 12,
+                        mainAxisSpacing: isExtraSmallScreen ? 8 : 12,
+                        childAspectRatio: isExtraSmallScreen ? 0.9 : 0.85,
                       ),
                       itemCount: _services.length,
                       itemBuilder: (context, index) {
-                        return ServiceCard(service: _services[index]);
+                        return ServiceCard(
+                          service: _services[index],
+                          isSmallScreen: isSmallScreen,
+                          isVerySmallScreen: isVerySmallScreen,
+                          isExtraSmallScreen: isExtraSmallScreen,
+                        );
                       },
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: isExtraSmallScreen ? 20 : 25),
 
                     // Section Services Premium
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -587,7 +619,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _accentTeal.withOpacity(0.05),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(isExtraSmallScreen ? 15 : 18),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -598,45 +630,53 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 'Services Premium',
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: isExtraSmallScreen ? 16 : isVerySmallScreen ? 18 : 20,
                                   fontWeight: FontWeight.bold,
                                   color: _textDark,
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: isExtraSmallScreen ? 8 : 10,
+                                  vertical: isExtraSmallScreen ? 3 : 4,
+                                ),
                                 decoration: BoxDecoration(
                                   color: _accentTeal,
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'EXCLUSIF',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 10,
+                                    fontSize: isExtraSmallScreen ? 8 : 9,
                                     fontWeight: FontWeight.bold,
-                                    letterSpacing: 1,
+                                    letterSpacing: 0.5,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          SizedBox(height: 4),
                           Text(
-                            'Nos services les plus demandés avec garantie qualité',
+                            'Nos services les plus demandés',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: isExtraSmallScreen ? 12 : 13,
                               color: _textLight,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: isExtraSmallScreen ? 12 : 16),
                           SizedBox(
-                            height: 250,
+                            height: isExtraSmallScreen ? 200 : isVerySmallScreen ? 220 : 250,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: _premiumServices.length,
                               itemBuilder: (context, index) {
-                                return PremiumServiceCard(service: _premiumServices[index]);
+                                return PremiumServiceCard(
+                                  service: _premiumServices[index],
+                                  isSmallScreen: isSmallScreen,
+                                  isVerySmallScreen: isVerySmallScreen,
+                                  isExtraSmallScreen: isExtraSmallScreen,
+                                );
                               },
                             ),
                           ),
@@ -644,43 +684,48 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: isExtraSmallScreen ? 20 : 25),
 
                     // Section Offres Spéciales
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Offres Spéciales',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: _textDark,
-                                letterSpacing: -0.5,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Offres Spéciales',
+                                style: TextStyle(
+                                  fontSize: isExtraSmallScreen ? 18 : isVerySmallScreen ? 20 : 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: _textDark,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Profitez de promotions exclusives',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: _textLight,
+                              SizedBox(height: 2),
+                              Text(
+                                'Profitez de promotions exclusives',
+                                style: TextStyle(
+                                  fontSize: isExtraSmallScreen ? 11 : 12,
+                                  color: _textLight,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/offers');
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isExtraSmallScreen ? 10 : 12,
+                              vertical: isExtraSmallScreen ? 5 : 6,
+                            ),
                             decoration: BoxDecoration(
                               color: _white,
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: _lightBlue, width: 2),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: _lightBlue, width: 1.5),
                             ),
                             child: Row(
                               children: [
@@ -688,12 +733,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Tout voir',
                                   style: TextStyle(
                                     color: _primaryBlue,
-                                    fontSize: 12,
+                                    fontSize: isExtraSmallScreen ? 10 : 11,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const SizedBox(width: 5),
-                                Icon(Icons.arrow_forward, color: _primaryBlue, size: 14),
+                                SizedBox(width: isExtraSmallScreen ? 2 : 4),
+                                Icon(Icons.arrow_forward,
+                                    color: _primaryBlue,
+                                    size: isExtraSmallScreen ? 12 : 14),
                               ],
                             ),
                           ),
@@ -701,48 +748,58 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
                     // Slider d'offres horizontal
                     SizedBox(
-                      height: 200,
+                      height: isExtraSmallScreen ? 160 : isVerySmallScreen ? 180 : 200,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: _offers.length,
                         itemBuilder: (context, index) {
-                          return OfferCard(offer: _offers[index]);
+                          return OfferCard(
+                            offer: _offers[index],
+                            isSmallScreen: isSmallScreen,
+                            isVerySmallScreen: isVerySmallScreen,
+                            isExtraSmallScreen: isExtraSmallScreen,
+                          );
                         },
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: isExtraSmallScreen ? 20 : 25),
 
                     // Section Autres Offres
                     Text(
                       'Autres Avantages',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: isExtraSmallScreen ? 16 : isVerySmallScreen ? 18 : 20,
                         fontWeight: FontWeight.bold,
                         color: _textDark,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 4),
                     Text(
                       'Découvrez tous nos avantages exclusifs',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: isExtraSmallScreen ? 11 : 12,
                         color: _textLight,
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
-                    ..._offers.map((offer) => AdditionalOfferCard(offer: offer)).toList(),
+                    ..._offers.map((offer) => AdditionalOfferCard(
+                      offer: offer,
+                      isSmallScreen: isSmallScreen,
+                      isVerySmallScreen: isVerySmallScreen,
+                      isExtraSmallScreen: isExtraSmallScreen,
+                    )).toList(),
 
                     // Section Contact moderne
-                    const SizedBox(height: 30),
+                    SizedBox(height: isExtraSmallScreen ? 20 : 25),
                     Container(
-                      padding: const EdgeInsets.all(25),
+                      padding: EdgeInsets.all(isExtraSmallScreen ? 16 : 20),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
@@ -752,50 +809,51 @@ class _HomeScreenState extends State<HomeScreen> {
                             _secondaryBlue,
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(isExtraSmallScreen ? 18 : 22),
                         boxShadow: [
                           BoxShadow(
                             color: _primaryBlue.withOpacity(0.3),
-                            blurRadius: 25,
-                            offset: const Offset(0, 10),
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
                           ),
                         ],
                       ),
                       child: Column(
                         children: [
                           Container(
-                            width: 70,
-                            height: 70,
+                            width: isExtraSmallScreen ? 50 : 60,
+                            height: isExtraSmallScreen ? 50 : 60,
                             decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.2),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.support_agent,
-                              size: 35,
+                              size: isExtraSmallScreen ? 24 : 28,
                               color: Colors.white,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          const Text(
+                          SizedBox(height: isExtraSmallScreen ? 12 : 16),
+                          Text(
                             'Besoin d\'un service personnalisé?',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: isExtraSmallScreen ? 16 : isVerySmallScreen ? 18 : 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Notre équipe d\'experts est disponible pour répondre à toutes vos questions et créer un plan de nettoyage adapté à vos besoins spécifiques.',
+                          SizedBox(height: isExtraSmallScreen ? 8 : 10),
+                          Text(
+                            'Notre équipe d\'experts est disponible pour répondre à vos questions.',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: isExtraSmallScreen ? 12 : 13,
                               color: Colors.white70,
-                              height: 1.5,
+                              height: 1.4,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 25),
+                          SizedBox(height: isExtraSmallScreen ? 16 : 20),
                           Row(
                             children: [
                               Expanded(
@@ -804,33 +862,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
                                     foregroundColor: _primaryBlue,
-                                    padding: const EdgeInsets.symmetric(vertical: 15),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: isExtraSmallScreen ? 10 : 12,
                                     ),
-                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    elevation: 3,
                                   ),
-                                  child: const Text(
+                                  child: Text(
                                     'Appeler maintenant',
                                     style: TextStyle(
+                                      fontSize: isExtraSmallScreen ? 12 : 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 15),
+                              SizedBox(width: isExtraSmallScreen ? 8 : 12),
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: () {},
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(color: Colors.white),
                                     foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(vertical: 15),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: isExtraSmallScreen ? 10 : 12,
+                                    ),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
-                                  child: const Text('Envoyer un message'),
+                                  child: Text(
+                                    'Envoyer un message',
+                                    style: TextStyle(
+                                      fontSize: isExtraSmallScreen ? 12 : 13,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -839,7 +907,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: isExtraSmallScreen ? 25 : 30),
                   ],
                 ),
               ),
@@ -854,16 +922,16 @@ class _HomeScreenState extends State<HomeScreen> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
-              blurRadius: 20,
+              blurRadius: 15,
               spreadRadius: 1,
-              offset: const Offset(0, -5),
+              offset: const Offset(0, -3),
             ),
           ],
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -872,81 +940,91 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: _white,
             selectedItemColor: _primaryBlue,
             unselectedItemColor: _textLight,
-            selectedLabelStyle: const TextStyle(
+            selectedLabelStyle: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 11,
+              fontSize: isExtraSmallScreen ? 9 : 10,
             ),
-            unselectedLabelStyle: const TextStyle(
-              fontSize: 11,
+            unselectedLabelStyle: TextStyle(
+              fontSize: isExtraSmallScreen ? 9 : 10,
             ),
             elevation: 0,
             items: [
               BottomNavigationBarItem(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 5 : 6),
                   decoration: BoxDecoration(
                     color: _selectedIndex == 0 ? _lightBlue : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.home,
-                    size: _selectedIndex == 0 ? 24 : 22,
+                    size: _selectedIndex == 0
+                        ? (isExtraSmallScreen ? 20 : 22)
+                        : (isExtraSmallScreen ? 18 : 20),
                   ),
                 ),
                 label: 'Accueil',
               ),
               BottomNavigationBarItem(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 5 : 6),
                   decoration: BoxDecoration(
                     color: _selectedIndex == 1 ? _lightBlue : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.local_offer,
-                    size: _selectedIndex == 1 ? 24 : 22,
+                    size: _selectedIndex == 1
+                        ? (isExtraSmallScreen ? 20 : 22)
+                        : (isExtraSmallScreen ? 18 : 20),
                   ),
                 ),
                 label: 'Offres',
               ),
               BottomNavigationBarItem(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 5 : 6),
                   decoration: BoxDecoration(
                     color: _selectedIndex == 2 ? _lightBlue : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.cleaning_services,
-                    size: _selectedIndex == 2 ? 24 : 22,
+                    size: _selectedIndex == 2
+                        ? (isExtraSmallScreen ? 20 : 22)
+                        : (isExtraSmallScreen ? 18 : 20),
                   ),
                 ),
                 label: 'Services',
               ),
               BottomNavigationBarItem(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 5 : 6),
                   decoration: BoxDecoration(
                     color: _selectedIndex == 3 ? _lightBlue : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.info_outline,
-                    size: _selectedIndex == 3 ? 24 : 22,
+                    size: _selectedIndex == 3
+                        ? (isExtraSmallScreen ? 20 : 22)
+                        : (isExtraSmallScreen ? 18 : 20),
                   ),
                 ),
                 label: 'À Propos',
               ),
               BottomNavigationBarItem(
                 icon: Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 5 : 6),
                   decoration: BoxDecoration(
                     color: _selectedIndex == 4 ? _lightBlue : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     Icons.person,
-                    size: _selectedIndex == 4 ? 24 : 22,
+                    size: _selectedIndex == 4
+                        ? (isExtraSmallScreen ? 20 : 22)
+                        : (isExtraSmallScreen ? 18 : 20),
                   ),
                 ),
                 label: 'Profil',
@@ -959,7 +1037,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Classes restent les mêmes...
+// Classes avec paramètres de taille
 
 class Service {
   final String title;
@@ -973,8 +1051,17 @@ class Service {
 
 class ServiceCard extends StatelessWidget {
   final Service service;
+  final bool isSmallScreen;
+  final bool isVerySmallScreen;
+  final bool isExtraSmallScreen;
 
-  const ServiceCard({super.key, required this.service});
+  const ServiceCard({
+    super.key,
+    required this.service,
+    required this.isSmallScreen,
+    required this.isVerySmallScreen,
+    required this.isExtraSmallScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -985,12 +1072,12 @@ class ServiceCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
-              blurRadius: 15,
-              offset: const Offset(0, 5),
+              blurRadius: 10,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -998,8 +1085,8 @@ class ServiceCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 55,
-              height: 55,
+              width: isExtraSmallScreen ? 40 : isVerySmallScreen ? 45 : 50,
+              height: isExtraSmallScreen ? 40 : isVerySmallScreen ? 45 : 50,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -1009,49 +1096,52 @@ class ServiceCard extends StatelessWidget {
                     service.color.withOpacity(0.7),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: service.color.withOpacity(0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
               child: Icon(
                 service.icon,
                 color: Colors.white,
-                size: 28,
+                size: isExtraSmallScreen ? 20 : isVerySmallScreen ? 22 : 24,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: isExtraSmallScreen ? 6 : 8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 4),
               child: Column(
                 children: [
                   Text(
                     service.title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 11,
+                    style: TextStyle(
+                      fontSize: isExtraSmallScreen ? 9 : isVerySmallScreen ? 10 : 11,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF2D3748),
+                      color: const Color(0xFF2D3748),
                       height: 1.2,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: isExtraSmallScreen ? 3 : 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isExtraSmallScreen ? 4 : 5,
+                      vertical: isExtraSmallScreen ? 1 : 2,
+                    ),
                     decoration: BoxDecoration(
                       color: service.color.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       service.tag,
                       style: TextStyle(
-                        fontSize: 8,
+                        fontSize: isExtraSmallScreen ? 7 : 8,
                         fontWeight: FontWeight.bold,
                         color: service.color,
                       ),
@@ -1080,22 +1170,31 @@ class PremiumService {
 
 class PremiumServiceCard extends StatelessWidget {
   final PremiumService service;
+  final bool isSmallScreen;
+  final bool isVerySmallScreen;
+  final bool isExtraSmallScreen;
 
-  const PremiumServiceCard({super.key, required this.service});
+  const PremiumServiceCard({
+    super.key,
+    required this.service,
+    required this.isSmallScreen,
+    required this.isVerySmallScreen,
+    required this.isExtraSmallScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      margin: const EdgeInsets.only(right: 20),
+      width: isExtraSmallScreen ? 240 : isVerySmallScreen ? 260 : 280,
+      margin: EdgeInsets.only(right: isExtraSmallScreen ? 12 : 15),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -1104,13 +1203,13 @@ class PremiumServiceCard extends StatelessWidget {
         children: [
           // Image avec overlay
           Container(
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
+            height: isExtraSmallScreen ? 90 : isVerySmallScreen ? 100 : 110,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
-              image: const DecorationImage(
+              image: DecorationImage(
                 image: AssetImage('assets/premium1.jpg'),
                 fit: BoxFit.cover,
               ),
@@ -1118,8 +1217,8 @@ class PremiumServiceCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -1131,24 +1230,27 @@ class PremiumServiceCard extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(isExtraSmallScreen ? 10 : 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isExtraSmallScreen ? 6 : 8,
+                        vertical: isExtraSmallScreen ? 2 : 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFD166),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
+                      child: Text(
                         'PREMIUM',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 10,
+                          fontSize: isExtraSmallScreen ? 8 : 9,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 1,
+                          letterSpacing: 0.5,
                         ),
                       ),
                     ),
@@ -1158,7 +1260,7 @@ class PremiumServiceCard extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1168,75 +1270,87 @@ class PremiumServiceCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         service.title,
-                        style: const TextStyle(
-                          fontSize: 16,
+                        style: TextStyle(
+                          fontSize: isExtraSmallScreen ? 14 : 15,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF2D3748),
+                          color: const Color(0xFF2D3748),
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isExtraSmallScreen ? 6 : 8,
+                        vertical: isExtraSmallScreen ? 2 : 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF4ECDC4).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         service.price,
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: TextStyle(
+                          fontSize: isExtraSmallScreen ? 10 : 11,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF4ECDC4),
+                          color: const Color(0xFF4ECDC4),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: isExtraSmallScreen ? 3 : 4),
                 Text(
                   service.description,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF718096),
+                  style: TextStyle(
+                    fontSize: isExtraSmallScreen ? 11 : 12,
+                    color: const Color(0xFF718096),
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: isExtraSmallScreen ? 6 : 8),
                 Row(
                   children: [
-                    const Icon(Icons.star, color: Color(0xFFFFD166), size: 16),
-                    const SizedBox(width: 5),
+                    Icon(Icons.star, color: const Color(0xFFFFD166), size: 14),
+                    SizedBox(width: 4),
                     Text(
                       '${service.rating}',
-                      style: const TextStyle(
-                        fontSize: 14,
+                      style: TextStyle(
+                        fontSize: 13,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2D3748),
+                        color: const Color(0xFF2D3748),
                       ),
                     ),
-                    const SizedBox(width: 5),
-                    const Text(
+                    SizedBox(width: 4),
+                    Text(
                       '(120 avis)',
                       style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF718096),
+                        fontSize: isExtraSmallScreen ? 10 : 11,
+                        color: const Color(0xFF718096),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 15),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/reservation');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1C768C),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                SizedBox(height: isExtraSmallScreen ? 10 : 12),
+                SizedBox(
+                  height: isExtraSmallScreen ? 36 : 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/reservation');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1C768C),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      'Réserver',
+                      style: TextStyle(
+                        fontSize: isExtraSmallScreen ? 12 : 13,
+                      ),
                     ),
                   ),
-                  child: const Text('Réserver maintenant'),
                 ),
               ],
             ),
@@ -1259,14 +1373,23 @@ class Offer {
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
+  final bool isSmallScreen;
+  final bool isVerySmallScreen;
+  final bool isExtraSmallScreen;
 
-  const OfferCard({super.key, required this.offer});
+  const OfferCard({
+    super.key,
+    required this.offer,
+    required this.isSmallScreen,
+    required this.isVerySmallScreen,
+    required this.isExtraSmallScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      margin: const EdgeInsets.only(right: 20),
+      width: isExtraSmallScreen ? 240 : isVerySmallScreen ? 260 : 280,
+      margin: EdgeInsets.only(right: isExtraSmallScreen ? 12 : 15),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -1276,17 +1399,17 @@ class OfferCard extends StatelessWidget {
             offer.color.withOpacity(0.7),
           ],
         ),
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: offer.color.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1295,56 +1418,61 @@ class OfferCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(isExtraSmallScreen ? 6 : 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     offer.icon,
                     color: Colors.white,
-                    size: 24,
+                    size: isExtraSmallScreen ? 18 : 20,
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: isExtraSmallScreen ? 8 : 10),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isExtraSmallScreen ? 10 : 12,
+                    vertical: isExtraSmallScreen ? 4 : 5,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
                     offer.discount,
                     style: TextStyle(
                       color: offer.color,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: isExtraSmallScreen ? 12 : 13,
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: isExtraSmallScreen ? 8 : 9),
                 Text(
                   offer.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: isExtraSmallScreen ? 14 : 16,
                     fontWeight: FontWeight.bold,
                     height: 1.3,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: isExtraSmallScreen ? 4 : 6),
                 Text(
                   offer.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 13,
+                    fontSize: isExtraSmallScreen ? 11 : 12,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: isExtraSmallScreen ? 10 : 10),
             SizedBox(
-              width: double.infinity,
+              height: isExtraSmallScreen ? 36 : 40,
               child: ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -1357,15 +1485,15 @@ class OfferCard extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: offer.color,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  elevation: 3,
+                  elevation: 2,
                 ),
-                child: const Text(
-                  'Profiter de l\'offre',
+                child: Text(
+                  'Profiter',
                   style: TextStyle(
+                    fontSize: isExtraSmallScreen ? 12 : 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1380,82 +1508,96 @@ class OfferCard extends StatelessWidget {
 
 class AdditionalOfferCard extends StatelessWidget {
   final Offer offer;
+  final bool isSmallScreen;
+  final bool isVerySmallScreen;
+  final bool isExtraSmallScreen;
 
-  const AdditionalOfferCard({super.key, required this.offer});
+  const AdditionalOfferCard({
+    super.key,
+    required this.offer,
+    required this.isSmallScreen,
+    required this.isVerySmallScreen,
+    required this.isExtraSmallScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(15),
+      margin: EdgeInsets.only(bottom: isExtraSmallScreen ? 10 : 12),
+      padding: EdgeInsets.all(isExtraSmallScreen ? 10 : 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(isExtraSmallScreen ? 8 : 10),
             decoration: BoxDecoration(
               color: offer.color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               offer.icon,
               color: offer.color,
-              size: 24,
+              size: isExtraSmallScreen ? 18 : 20,
             ),
           ),
-          const SizedBox(width: 15),
+          SizedBox(width: isExtraSmallScreen ? 10 : 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   offer.title,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: isExtraSmallScreen ? 13 : 14,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2D3748),
+                    color: const Color(0xFF2D3748),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 2),
                 Text(
                   offer.description,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Color(0xFF718096),
+                  style: TextStyle(
+                    fontSize: isExtraSmallScreen ? 11 : 12,
+                    color: const Color(0xFF718096),
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(
+              horizontal: isExtraSmallScreen ? 8 : 10,
+              vertical: isExtraSmallScreen ? 4 : 5,
+            ),
             decoration: BoxDecoration(
               color: offer.color,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
                   color: offer.color.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
             child: Text(
               offer.discount,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
+                fontSize: isExtraSmallScreen ? 10 : 11,
               ),
             ),
           ),
