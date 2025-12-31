@@ -61,19 +61,45 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: isVerySmallScreen ? 8.0 : 16.0),
 
                     // Logo
-                    Center(
+                       Center(
                       child: Container(
-                        width: isVerySmallScreen ? 100 : isSmallScreen ? 120 : 150,
-                        height: isVerySmallScreen ? 100 : isSmallScreen ? 120 : 150,
+                        width: isVerySmallScreen ? 120 : isSmallScreen ? 150 : 200,
+                        height: isVerySmallScreen ? 120 : isSmallScreen ? 150 : 200,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(isVerySmallScreen ? 40 : 57),
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xFF21BBC7),
+                              Color(0xFF1C768C),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(
+                              isVerySmallScreen ? 45 : isSmallScreen ? 55 : 60),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white,
+                              blurRadius: isVerySmallScreen ? 10 : 15,
+                              spreadRadius: isVerySmallScreen ? 1 : 2,
+                            ),
+                          ],
                         ),
-                        child: Image.asset(
-                          'assets/logo.png',
-                          width: isVerySmallScreen ? 100 : isSmallScreen ? 120 : 150,
-                          height: isVerySmallScreen ? 100 : isSmallScreen ? 120 : 150,
-                          fit: BoxFit.contain,
+                        child: Container(
+                          margin: EdgeInsets.all(isVerySmallScreen ? 2 : 3),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                                isVerySmallScreen ? 43 : isSmallScreen ? 52 : 57),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(isVerySmallScreen ? 3 : 5),
+                            child: Image.asset(
+                              'assets/logo.png',
+                              width: isVerySmallScreen ? 110 : isSmallScreen ? 140 : 190,
+                              height: isVerySmallScreen ? 110 : isSmallScreen ? 140 : 190,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
                       ),
                     ),
