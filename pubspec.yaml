@@ -29,3 +29,13 @@ flutter:
   # ADD THIS SECTION:
   assets:
     - assets/
+    - assets/clean1.png
+    - assets/clean2.png
+    - assets/clean3.png
+    - assets/clean4.png
+    - assets/offer1.jpg
+    - assets/offer2.jpg
+    - assets/offer3.jpg
+    - assets/offer4.jpg
+    - assets/offer5.jpg
+    
