@@ -35,9 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   // Liste des images pour le slider
- final List<String> _bannerImages = [
+  final List<String> _bannerImages = [
     'assets/clean2.png',
-    'assets/clean2.png',
+    'assets/clean1.png',
     'assets/clean3.png',
     'assets/clean4.png',
     'assets/offer1.jpg',
@@ -80,16 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
   // Méthode pour créer la liste des services
   List<Service> _createServices() {
     return [
-      Service('Nettoyage Maison', Icons.cleaning_services, 'assets/service1.png', 'Complet', _accentTeal),
-      Service('Nettoyage Profond', Icons.clean_hands, 'assets/service2.png', 'Intensif', _accentCoral),
-      Service('Nettoyage Bureau', Icons.business, 'assets/service3.png', 'Professionnel', _accentYellow),
-      Service('Nettoyage Tapis', Icons.carpenter, 'assets/service4.png', 'Spécialisé', _accentPurple),
-      Service('Nettoyage Vitres', Icons.window, 'assets/service5.png', 'Éclatant', _secondaryBlue),
-      Service('Blanchisserie', Icons.local_laundry_service, 'assets/service6.png', 'Professionnel', _accentTeal),
-      Service('Désinfection', Icons.medical_services, 'assets/service7.png', 'Sanitaire', _accentCoral),
-      Service('Après Travaux', Icons.construction, 'assets/service8.png', 'Complet', _accentYellow),
-      Service('Écologique', Icons.eco, 'assets/service9.png', 'Vert', _accentPurple),
-      Service('Urgence', Icons.emergency, 'assets/service10.png', 'Rapide', _secondaryBlue),
+      Service('Nettoyage Maison', Icons.cleaning_services, 'assets/clean1.png', 'Complet', _accentTeal),
+      Service('Nettoyage Profond', Icons.clean_hands, 'assets/clean2.png', 'Intensif', _accentCoral),
+      Service('Nettoyage Bureau', Icons.business, 'assets/clean3.png', 'Professionnel', _accentYellow),
+      Service('Nettoyage Tapis', Icons.carpenter, 'assets/clean4.png', 'Spécialisé', _accentPurple),
+      Service('Nettoyage Vitres', Icons.window, 'assets/offer1.jpg', 'Éclatant', _secondaryBlue),
+      Service('Blanchisserie', Icons.local_laundry_service, 'assets/offer2.jpg', 'Professionnel', _accentTeal),
+      Service('Désinfection', Icons.medical_services, 'assets/offer3.jpg', 'Sanitaire', _accentCoral),
+      Service('Après Travaux', Icons.construction, 'assets/offer4.jpg', 'Complet', _accentYellow),
+      Service('Écologique', Icons.eco, 'assets/offer5.jpg', 'Vert', _accentPurple),
+      Service('Urgence', Icons.emergency, 'assets/offer6.jpg', 'Rapide', _secondaryBlue),
     ];
   }
 
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       PremiumService(
         'Nettoyage Intégral',
-        'assets/premium1.jpg',
+        'assets/clean1.png',
         'Service complet de A à Z',
         '3500 DZD',
         4.9,
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       PremiumService(
         'Pack Entreprise',
-        'assets/premium2.jpg',
+        'assets/clean2.png',
         'Pour bureaux et entreprises',
         'À partir de 8000 DZD',
         4.8,
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       PremiumService(
         'Service Écologique Premium',
-        'assets/premium3.jpg',
+        'assets/clean3.png',
         '100% naturel et biodégradable',
         '4500 DZD',
         4.9,
@@ -1210,7 +1210,7 @@ class PremiumServiceCard extends StatelessWidget {
                 topRight: Radius.circular(20),
               ),
               image: DecorationImage(
-                image: AssetImage('assets/premium1.jpg'),
+                image: AssetImage('assets/clean1.png'),
                 fit: BoxFit.cover,
               ),
             ),
