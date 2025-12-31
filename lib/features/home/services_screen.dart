@@ -72,49 +72,57 @@ class ServicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 360;
+    final isVerySmallScreen = screenWidth < 320;
+    final isExtraSmallScreen = screenWidth < 300;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF1C768C)),
+          icon: Icon(Icons.arrow_back, 
+              color: const Color(0xFF1C768C),
+              size: isExtraSmallScreen ? 22 : 24),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Nos Services',
           style: TextStyle(
-            color: Color(0xFF1C768C),
+            color: const Color(0xFF1C768C),
             fontWeight: FontWeight.bold,
+            fontSize: isExtraSmallScreen ? 18 : isVerySmallScreen ? 20 : 22,
           ),
         ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(isExtraSmallScreen ? 12 : isVerySmallScreen ? 16 : 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Services Professionnels de Nettoyage',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: isExtraSmallScreen ? 18 : isVerySmallScreen ? 20 : 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF1C768C),
+                color: const Color(0xFF1C768C),
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: isExtraSmallScreen ? 8 : 10),
 
-            const Text(
+            Text(
               'Choisissez parmi notre large gamme de services professionnels',
               style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFF666666),
+                fontSize: isExtraSmallScreen ? 13 : isVerySmallScreen ? 14 : 16,
+                color: const Color(0xFF666666),
               ),
             ),
 
-            const SizedBox(height: 30),
+            SizedBox(height: isExtraSmallScreen ? 20 : 30),
 
             // Use ListView.builder instead of spread operator
             ListView.builder(
@@ -122,14 +130,19 @@ class ServicesScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _services.length,
               itemBuilder: (context, index) {
-                return ServiceDetailCard(service: _services[index]);
+                return ServiceDetailCard(
+                  service: _services[index],
+                  isSmallScreen: isSmallScreen,
+                  isVerySmallScreen: isVerySmallScreen,
+                  isExtraSmallScreen: isExtraSmallScreen,
+                );
               },
             ),
 
-            const SizedBox(height: 30),
+            SizedBox(height: isExtraSmallScreen ? 20 : 30),
 
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
@@ -139,55 +152,65 @@ class ServicesScreen extends StatelessWidget {
                     Color(0xFF1C768C),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(isExtraSmallScreen ? 12 : 15),
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.support_agent,
-                    size: 40,
+                    size: isExtraSmallScreen ? 30 : 36,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: isExtraSmallScreen ? 12 : 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Besoin d\'un service personnalisé?',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: isExtraSmallScreen ? 14 : 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        const Text(
+                        SizedBox(height: isExtraSmallScreen ? 4 : 6),
+                        Text(
                           'Contactez-nous pour une consultation gratuite',
                           style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFFBBF0F4),
+                            fontSize: isExtraSmallScreen ? 12 : 13,
+                            color: const Color(0xFFBBF0F4),
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Contact action
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Nous vous contacterons bientôt!'),
-                                backgroundColor: Color(0xFF21BBC7),
+                        SizedBox(height: isExtraSmallScreen ? 8 : 12),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Nous vous contacterons bientôt!'),
+                                  backgroundColor: Color(0xFF21BBC7),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: const Color(0xFF1C768C),
+                              padding: EdgeInsets.symmetric(
+                                vertical: isExtraSmallScreen ? 10 : 12,
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: const Color(0xFF1C768C),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              'Nous Contacter',
+                              style: TextStyle(
+                                fontSize: isExtraSmallScreen ? 12 : 14,
+                              ),
                             ),
                           ),
-                          child: const Text('Nous Contacter'),
                         ),
                       ],
                     ),
@@ -196,7 +219,7 @@ class ServicesScreen extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 30),
+            SizedBox(height: isExtraSmallScreen ? 20 : 30),
           ],
         ),
       ),
@@ -217,21 +240,30 @@ class ServiceDetail {
 
 class ServiceDetailCard extends StatelessWidget {
   final ServiceDetail service;
+  final bool isSmallScreen;
+  final bool isVerySmallScreen;
+  final bool isExtraSmallScreen;
 
-  const ServiceDetailCard({super.key, required this.service});
+  const ServiceDetailCard({
+    super.key,
+    required this.service,
+    required this.isSmallScreen,
+    required this.isVerySmallScreen,
+    required this.isExtraSmallScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: isExtraSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(isExtraSmallScreen ? 12 : 15),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
           ),
         ],
         border: Border.all(color: const Color(0xFFBBF0F4)),
@@ -241,11 +273,11 @@ class ServiceDetailCard extends StatelessWidget {
         children: [
           // Service image
           Container(
-            height: 200,
+            height: isExtraSmallScreen ? 140 : isVerySmallScreen ? 160 : 180,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(isExtraSmallScreen ? 12 : 15),
+                topRight: Radius.circular(isExtraSmallScreen ? 12 : 15),
               ),
               image: DecorationImage(
                 image: AssetImage(service.image),
@@ -254,9 +286,9 @@ class ServiceDetailCard extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(isExtraSmallScreen ? 12 : 15),
+                  topRight: Radius.circular(isExtraSmallScreen ? 12 : 15),
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -268,23 +300,26 @@ class ServiceDetailCard extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isExtraSmallScreen ? 8 : 10,
+                        vertical: isExtraSmallScreen ? 4 : 6,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF21BBC7),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
                         service.price,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: isExtraSmallScreen ? 11 : 12,
                         ),
                       ),
                     ),
@@ -295,40 +330,49 @@ class ServiceDetailCard extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(isExtraSmallScreen ? 12 : 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(isExtraSmallScreen ? 6 : 8),
                       decoration: BoxDecoration(
                         color: const Color(0xFF21BBC7).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Icon(service.icon, color: const Color(0xFF1C768C), size: 28),
+                      child: Icon(
+                        service.icon,
+                        color: const Color(0xFF1C768C),
+                        size: isExtraSmallScreen ? 20 : 24,
+                      ),
                     ),
-                    const SizedBox(width: 15),
+                    SizedBox(width: isExtraSmallScreen ? 10 : 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             service.title,
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              fontSize: isExtraSmallScreen ? 16 : 18,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1C768C),
+                              color: const Color(0xFF1C768C),
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          const SizedBox(height: 5),
+                          SizedBox(height: isExtraSmallScreen ? 4 : 6),
                           Text(
                             service.description,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF666666),
+                            style: TextStyle(
+                              fontSize: isExtraSmallScreen ? 12 : 13,
+                              color: const Color(0xFF666666),
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -336,88 +380,102 @@ class ServiceDetailCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
-                const Divider(color: Color(0xFFBBF0F4)),
+                Divider(color: const Color(0xFFBBF0F4), thickness: 1),
 
-                const SizedBox(height: 15),
+                SizedBox(height: isExtraSmallScreen ? 10 : 12),
 
-                const Text(
+                Text(
                   'Services Inclus:',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: isExtraSmallScreen ? 15 : 16,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF1C768C),
+                    color: const Color(0xFF1C768C),
                   ),
                 ),
 
-                const SizedBox(height: 10),
+                SizedBox(height: isExtraSmallScreen ? 6 : 8),
 
                 Text(
                   service.features,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666),
-                    height: 1.6,
+                  style: TextStyle(
+                    fontSize: isExtraSmallScreen ? 12 : 13,
+                    color: const Color(0xFF666666),
+                    height: 1.5,
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: isExtraSmallScreen ? 12 : 16),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
+                    // Rating container - full width on small screens
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isExtraSmallScreen ? 10 : 12,
+                        vertical: isExtraSmallScreen ? 8 : 10,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF21BBC7).withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: const Color(0xFF21BBC7)),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.star,
-                            color: Color(0xFF1C768C),
-                            size: 18,
+                            color: const Color(0xFF1C768C),
+                            size: isExtraSmallScreen ? 16 : 18,
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: isExtraSmallScreen ? 6 : 8),
                           Text(
                             '4.9/5 (120 avis)',
-                            style: const TextStyle(
-                              fontSize: 14,
+                            style: TextStyle(
+                              fontSize: isExtraSmallScreen ? 12 : 14,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF1C768C),
+                              color: const Color(0xFF1C768C),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/reservation',
-                          arguments: {
-                            'title': service.title,
-                            'price': service.price,
-                          },
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF21BBC7),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+
+                    SizedBox(height: isExtraSmallScreen ? 10 : 12),
+
+                    // Reserve button - full width
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/reservation',
+                            arguments: {
+                              'title': service.title,
+                              'price': service.price,
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF21BBC7),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            vertical: isExtraSmallScreen ? 12 : 14,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          elevation: 2,
                         ),
-                        elevation: 2,
-                      ),
-                      child: const Text(
-                        'Réserver Maintenant',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                        child: Text(
+                          'Réserver Maintenant',
+                          style: TextStyle(
+                            fontSize: isExtraSmallScreen ? 13 : 14,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
