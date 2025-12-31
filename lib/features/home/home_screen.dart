@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/clean2.png',
     'assets/clean3.png',
     'assets/clean4.png',
-    'assets/clean5.png',
+    'assets/offer1.jpg',
   ];
 
   final List<String> _bannerTitles = [
