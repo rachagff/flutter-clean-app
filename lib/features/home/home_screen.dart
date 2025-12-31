@@ -36,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Liste des images pour le slider
   final List<String> _bannerImages = [
-    'assets/clean2.png',
-    'assets/clean1.png',
-    'assets/clean3.png',
-    'assets/clean4.png',
+    'assets/offer5.jpg',
+    'assets/offer4.jpg',
+    'assets/offer3.jpg',
+    'assets/offer2.jpg',
     'assets/offer1.jpg',
   ];
 
